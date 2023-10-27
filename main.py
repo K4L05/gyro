@@ -197,42 +197,43 @@ def headHandler(arg):
 
 	if arg == 'select':
 		for i in heads:
-			client.send_message("/rpc ", "\<01>,{}H".format(i))
+			client.send_message("/rpc", "\<01>,{}H".format(str(i)))
 	
-	if arg == 'intensityMax':
+	elif arg == 'intensityMax':
 		print('intensity 100')
-		client.send_message("/rpc ", "\<05>,100,1H")
+		client.send_message("/rpc", "\<05>,100,1H")
 
-	if arg == 'intensityMin':
+	elif arg == 'intensityMin':
 		print('intensity 0')
-		client.send_message("/rpc ", "\<05>,0,1H")
+		client.send_message("/rpc", "\<05>,0,1H")
 
-	if arg == 'intensityHalf':
+	elif arg == 'intensityHalf':
 		print('intensity 50')
-		client.send_message("/rpc ", "\<05>,50,1H")
+		client.send_message("/rpc", "\<05>,50,1H")
 
-	if arg == 'resetPos':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(defaultPos[0]))
-		client.send_message("/rpc ", "\<06>,5,{}H".format(defaultPos[1]))
+	elif arg == 'resetPos':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(defaultPos[0])))
+		client.send_message("/rpc", "\<06>,5,{}H".format(str(defaultPos[1])))
 		currentPos = defaultPos
-	if arg == 'updatePos':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(currentPos[0]))
-		client.send_message("/rpc ", "\<06>,5,{}H".format(currentPos[1]))
 
-	if arg =='colRed':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(currentPos[0]))
-	
-	if arg =='colBlue':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(currentPos[0]))
-	
-	if arg =='colGreen':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(currentPos[0]))
+	elif arg == 'updatePos':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(currentPos[0])))
+		client.send_message("/rpc", "\<06>,5,{}H".format(str(currentPos[1])))
 
-	if arg =='colWhite':
-		client.send_message("/rpc ", "\<06>,4,{}H".format(currentPos[0]))
+	elif arg =='colRed':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(currentPos[0])))
 	
-	if isinstance(arg, int):
-		client.send_message("/rpc ", "\<05>,{},1H".format((arg*10)))
+	elif arg =='colBlue':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(currentPos[0])))
+	
+	elif arg =='colGreen':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(currentPos[0])))
+
+	elif arg =='colWhite':
+		client.send_message("/rpc", "\<06>,4,{}H".format(str(currentPos[0])))
+	
+	elif isinstance(arg, int):
+		client.send_message("/rpc", "\<05>,{},1H".format(str((arg*10))))
 	
 		
 
@@ -242,22 +243,22 @@ def posInterpreter(arg, mp=1):
 
 	if mp <= 0:
 		if arg == "left":
-			simPos[0] = simPos[0]+(mp*5)
+			simPos[0] = simPos[0]+(mp)
 		if arg == "right":
-			simPos[0] = simPos[0]+(mp*5)
+			simPos[0] = simPos[0]+(mp)
 		if arg == "up":
-			simPos[1] = simPos[1]+(mp*5)
+			simPos[1] = simPos[1]+(mp)
 		if arg == "down":
-			simPos[1] = simPos[1]+(mp*5)
+			simPos[1] = simPos[1]+(mp)
 	if mp > 0:
 		if arg == "left":
-			simPos[0] += -5
+			simPos[0] += -2
 		if arg == "right":
-			simPos[0] += 5
+			simPos[0] += 2
 		if arg == "up":
-			simPos[1] += 5
+			simPos[1] += 2
 		if arg == "down":
-			simPos[1] += -5
+			simPos[1] += -2
 
 	#print(simPos)
 	currentPos = [round(num) for num in simPos]
@@ -283,7 +284,7 @@ def posInterpreter(arg, mp=1):
 	if currentPos[1] < yBoundary[0]:
 		currentPos[1] = yBoundary[0]
 	
-	
+	headHandler('updatePos')
 	print(currentPos)
 
 
@@ -299,7 +300,7 @@ def headControl(arg):
 				sleep(0.5)
 				client.send_message("/dbo", 1)
 				sleep(0.5)
-			client.send_message("/dbo", 1)
+			client.send_message("/dbo", 0)
 
 			print("Test finished, make adjustments as needed\n")
 
